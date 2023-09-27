@@ -383,12 +383,14 @@ def is_correct_pairing(wine_suggestions, food_info):
 
 st.title("Wine Pairing Recommendation App")
 description = """
-## Culinary Delights & Wine Pairing 🍷
-Culinary delights and wine share a storied tradition of harmonious pairing, each elevating the experience of the other. 
+## Wine and Food Pairing 🍷
 
-**Embark on a journey of sensory pleasure** with our Wine Pairing Recommendation App. Simply select the dishes you plan to savor, and allow our intelligent algorithm to recommend wines that perfectly complement your culinary choices.
+Description:
+Welcome to Wine and Food Pairing System! This system helps you pick the appropriate wine for your meal. Just pick the food items or flavours you're planning to enjoy from the dropdown menu, and the system will recommend wines that go really well with them.
 
-Whether you're seeking congruent pairings that mirror the flavor profiles of your dishes or contrasting pairings that offer a delightful counterpoint, we've got you covered. **Begin your gourmet adventure below!**
+Whether you're seeking congruent pairings that mirror the flavor profiles of your dishes or contrasting pairings that offer a delightful counterpoint. The system will help generate for you. It's all about making your dining experience delicious and enjoyable. 
+
+Let's start your food and wine adventure!**
 """
 
 st.markdown(description)
