@@ -381,11 +381,10 @@ def is_correct_pairing(wine_suggestions, food_info):
 # Streamlit app
 
 
-st.title("Wine Pairing Recommendation App")
+st.title("Wine and Food Pairing Recommendation System")
 description = """
 ## Wine and Food Pairing 🍷
 
-Description:
 Welcome to Wine and Food Pairing System! This system helps you pick the appropriate wine for your meal. Just pick the food items or flavours you're planning to enjoy from the dropdown menu, and the system will recommend wines that go really well with them.
 
 Whether you're seeking congruent pairings that mirror the flavor profiles of your dishes or contrasting pairings that offer a delightful counterpoint. The system will help generate for you. It's all about making your dining experience delicious and enjoyable. 
