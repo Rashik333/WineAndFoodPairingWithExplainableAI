@@ -363,6 +363,20 @@ def present_wine_suggestions(suggested_wines, wine_non_aromatics, wine_intensity
         intensity_line_index += 1
         notes_index += 1
 
+def is_correct_pairing(wine_suggestions, food_info):
+    correct_pairings = 0
+    total_tests = 0
+
+    # Loop through test scenarios
+    for test_scenario in test_scenarios:
+      recommended_wines = recommend_wines(test_scenario.food)
+      for wine in recommended_wines:
+        if is_correct_pairing(wine, test_scenario.food):
+            correct_pairings += 1
+        total_tests += 1
+
+    accuracy = (correct_pairings / total_tests) * 100
+    st.write(f"Accuracy of Pairing: {accuracy}%")
 
 # Streamlit app
 
