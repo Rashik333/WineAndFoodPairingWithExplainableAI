@@ -379,74 +379,77 @@ Whether you're seeking congruent pairings that mirror the flavor profiles of you
 
 st.markdown(description)
 
+# Alphabetically sort the food items
+food_list_sorted = sorted(food_list)
+
 # Multi-select dropdown for selecting food items
-selected_foods = st.multiselect("Select food items:", food_list)
+selected_foods = st.multiselect("Select food items:", food_list_sorted)
 
 # Check if selected_options is empty and show a message
 if not selected_foods:
     st.warning("Please select at least one option.")
 else:
-            # Button to recommend wines
-            if st.button("Recommend"):
-                # Perform wine pairing recommendation based on selected foods
-                sweet_course = selected_foods
+    # Button to recommend wines
+    if st.button("Recommend"):
+        # Perform wine pairing recommendation based on selected foods
+        sweet_course = selected_foods
             
-                dish_non_aromatics, dish_importance, scent_vector = compute_food_properties(sweet_course)
+        dish_non_aromatics, dish_importance, scent_vector = compute_food_properties(sweet_course)
                 
-                suggested_wines = wine_data_normalized.copy()
-                suggested_wines = apply_non_aroma_filters(suggested_wines, dish_non_aromatics, dish_importance)
-                suggested_wines = determine_pairing_type(suggested_wines, dish_non_aromatics)
-                suggested_wines = rearrange_by_aroma_proximity(suggested_wines, scent_vector)
-                suggested_wines['key_descriptors'] = suggested_wines.index.map(find_top_descriptors)
+        suggested_wines = wine_data_normalized.copy()
+        suggested_wines = apply_non_aroma_filters(suggested_wines, dish_non_aromatics, dish_importance)
+        suggested_wines = determine_pairing_type(suggested_wines, dish_non_aromatics)
+        suggested_wines = rearrange_by_aroma_proximity(suggested_wines, scent_vector)
+        suggested_wines['key_descriptors'] = suggested_wines.index.map(find_top_descriptors)
                 
-                # Check for available contrasting wine recommendations
-                try:
-                    opposing_wines, opposing_non_aromatics, opposing_wine_strength, dominant_notes_opposing = get_pairing_details(suggested_wines, wine_data, 'contrasting')
-                except Exception as e:
-                    print("Opposing ----------------")
-                    print(e)
-                    opposing_wines = []
+        # Check for available contrasting wine recommendations
+        try:
+            opposing_wines, opposing_non_aromatics, opposing_wine_strength, dominant_notes_opposing = get_pairing_details(suggested_wines, wine_data, 'contrasting')
+        except Exception as e:
+            print("Opposing ----------------")
+            print(e)
+            opposing_wines = []
                 
-                # Check for available congruent wine recommendations
-                try:
-                    matching_wines, matching_non_aromatics, matching_wine_strength, dominant_notes_matching = get_pairing_details(suggested_wines, wine_data, 'congruent')
-                except Exception as e:
-                    print("Matching --------")
-                    print(e)
-                    matching_wines = []
+        # Check for available congruent wine recommendations
+        try:
+            matching_wines, matching_non_aromatics, matching_wine_strength, dominant_notes_matching = get_pairing_details(suggested_wines, wine_data, 'congruent')
+        except Exception as e:
+            print("Matching --------")
+            print(e)
+            matching_wines = []
                 
-                # Offer a mix of opposing and matching wines, if available
-                if len(opposing_wines) >= 2 and len(matching_wines) >= 2:
-                    selected_wines = opposing_wines[:2] + matching_wines[:2]
-                    wine_non_aromatics = opposing_non_aromatics[:2] + matching_non_aromatics[:2]
-                    wine_intensity = opposing_wine_strength[:2] + matching_wine_strength[:2]
-                    main_notes = dominant_notes_opposing[:2] + dominant_notes_matching[:2]
-                    wine_pairing_styles = ['Contrasting', 'Contrasting', 'Congruent', 'Congruent']
-                elif len(opposing_wines) >= 2:
-                    selected_wines = opposing_wines
-                    wine_non_aromatics = opposing_non_aromatics
-                    wine_intensity = opposing_wine_strength
-                    main_notes = dominant_notes_opposing
-                    wine_pairing_styles = ['Contrasting', 'Contrasting', 'Contrasting', 'Contrasting']
-                else:
-                    selected_wines = matching_wines
-                    wine_non_aromatics = matching_non_aromatics
-                    wine_intensity = matching_wine_strength
-                    main_notes = dominant_notes_matching
-                    wine_pairing_styles = ['Congruent', 'Congruent', 'Congruent', 'Congruent']
-                # for wine in selected_wines:
-                #     st.header(wine)
-                plt.figure(figsize=(4, 5), dpi=75)
-                gs = gridspec.GridSpec(2, 1, height_ratios=[3, 0.5])
+        # Offer a mix of opposing and matching wines, if available
+        if len(opposing_wines) >= 2 and len(matching_wines) >= 2:
+            selected_wines = opposing_wines[:2] + matching_wines[:2]
+            wine_non_aromatics = opposing_non_aromatics[:2] + matching_non_aromatics[:2]
+            wine_intensity = opposing_wine_strength[:2] + matching_wine_strength[:2]
+            main_notes = dominant_notes_opposing[:2] + dominant_notes_matching[:2]
+            wine_pairing_styles = ['Contrasting', 'Contrasting', 'Congruent', 'Congruent']
+        elif len(opposing_wines) >= 2:
+            selected_wines = opposing_wines
+            wine_non_aromatics = opposing_non_aromatics
+            wine_intensity = opposing_wine_strength
+            main_notes = dominant_notes_opposing
+            wine_pairing_styles = ['Contrasting', 'Contrasting', 'Contrasting', 'Contrasting']
+        else:
+            selected_wines = matching_wines
+            wine_non_aromatics = matching_non_aromatics
+            wine_intensity = matching_wine_strength
+            main_notes = dominant_notes_matching
+            wine_pairing_styles = ['Congruent', 'Congruent', 'Congruent', 'Congruent']
+        # for wine in selected_wines:
+        #     st.header(wine)
+        plt.figure(figsize=(4, 5), dpi=75)
+        gs = gridspec.GridSpec(2, 1, height_ratios=[3, 0.5])
                 
-                dish_non_aromatics_norm = {k: v[0] for k, v in dish_non_aromatics.items()}
-                food_names = ' + '.join(sweet_course)
-                generate_radar_chart(gs, 0, dish_non_aromatics_norm, 'Selected Foods Profile:', 'green', food_names)
-                draw_intensity_line(gs, 1, dish_importance[0], point_color='green')
+        dish_non_aromatics_norm = {k: v[0] for k, v in dish_non_aromatics.items()}
+        food_names = ' + '.join(sweet_course)
+        generate_radar_chart(gs, 0, dish_non_aromatics_norm, 'Selected Foods Profile:', 'green', food_names)
+        draw_intensity_line(gs, 1, dish_importance[0], point_color='green')
                 
-                plt.tight_layout()
+        plt.tight_layout()
                 
-                st.pyplot(plt.show())
-                st.pyplot(present_wine_suggestions(selected_wines, wine_non_aromatics, wine_intensity, main_notes, wine_pairing_styles))
-    
+        st.pyplot(plt.show())
+        st.pyplot(present_wine_suggestions(selected_wines, wine_non_aromatics, wine_intensity, main_notes, wine_pairing_styles))
+
 
