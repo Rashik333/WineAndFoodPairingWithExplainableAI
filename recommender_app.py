@@ -389,7 +389,7 @@ Welcome to Wine and Food Pairing System! This system helps you pick the appropri
 
 Whether you're seeking congruent pairings that mirror the flavor profiles of your dishes or contrasting pairings that offer a delightful counterpoint. The system will help generate for you. It's all about making your dining experience delicious and enjoyable. 
 
-Let's start your food and wine adventure!**
+Let's start your food and wine adventure!
 """
 
 st.markdown(description)
