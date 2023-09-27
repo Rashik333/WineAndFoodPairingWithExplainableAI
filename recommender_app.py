@@ -395,10 +395,10 @@ Let's start your food and wine adventure!**
 st.markdown(description)
 
 # Alphabetically sort the food items
-food_list_sorted = sorted(food_list)
+food_list = sorted(food_list)
 
 # Multi-select dropdown for selecting food items
-selected_foods = st.multiselect("Select food items:", food_list_sorted)
+selected_foods = st.multiselect("Select food items:", food_list)
 
 # Check if selected_options is empty and show a message
 if not selected_foods:
